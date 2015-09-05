@@ -1,0 +1,26 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace Journal2API.Models
+{
+    public class Log
+    {
+        public List<LogItem> items { get; set; }
+
+        public class LogItem : HasTimestamp, Item
+        {
+            public int Id
+            {
+                get;
+                set;
+            }
+            public string Text
+            {
+                get;
+                set;
+            }
+        }
+    }
+}

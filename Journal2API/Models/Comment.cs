@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
 
 namespace Journal2API.Models
 {
@@ -10,5 +11,10 @@ namespace Journal2API.Models
         public int Id { get; set; }
         public string Content { get; set; }
         public string Author { get; set; }
+    }
+
+    public partial class Journal2ApiContext: DbContext
+    {
+        DbSet<Comment> Comments { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
 
 namespace Journal2API.Models
 {
@@ -15,7 +16,7 @@ namespace Journal2API.Models
 
         public List<QuestSection> Sections { get; set; }
 
-        public Workflow workflow { get; set; }
+        public Workflow Workflow { get; set; }
 
         public interface QuestSection
         {
@@ -29,5 +30,9 @@ namespace Journal2API.Models
             public List<TodoItem> Todos;
         }
 
+    }
+
+    public partial class Journal2ApiContext: DbContext {
+        public DbSet<Quest> Quests;
     }
 }

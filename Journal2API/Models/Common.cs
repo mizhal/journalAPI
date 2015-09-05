@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
 
 namespace Journal2API.Models
 {
-    public class HasTimestamp
+    public abstract class HasTimestamp
     {
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
@@ -13,7 +14,7 @@ namespace Journal2API.Models
 
     public interface Item
     {
-        int Id{ get; set;}
+        int Id { get; set; }
     }
 
     public interface Commentable
@@ -21,6 +22,17 @@ namespace Journal2API.Models
 
     }
 
+    public interface Nestable<T>
+    {
+        T Parent { get; set; }
+        List<T> Children { get; set; }
 
+        List<T> roots();
+    }
 
+    public partial class Journal2ApiContext : DbContext
+    {
+        public Journal2ApiContext() : base("name=JournalContext") { }
+
+    }
 }

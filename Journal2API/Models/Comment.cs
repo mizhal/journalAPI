@@ -13,8 +13,8 @@ namespace Journal2API.Models
         public string Author { get; set; }
     }
 
-    public partial class Journal2ApiContext: DbContext
+    public partial class JournalContext: DbContext
     {
-        DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
     }
 }

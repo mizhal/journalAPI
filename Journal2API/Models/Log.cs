@@ -25,9 +25,9 @@ namespace Journal2API.Models
             }
         }
 
-        public partial class Journal2ApiContext: DbContext
+        public partial class JournalContext: DbContext
         {
-            public DbSet<LogItem> LogItems { get; set; }
+            public virtual DbSet<LogItem> LogItems { get; set; }
         }
     }
 }

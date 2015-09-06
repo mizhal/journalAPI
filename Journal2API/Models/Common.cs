@@ -30,9 +30,9 @@ namespace Journal2API.Models
         List<T> roots();
     }
 
-    public partial class Journal2ApiContext : DbContext
+    public partial class JournalContext : DbContext
     {
-        public Journal2ApiContext() : base("name=JournalContext") { }
+        public JournalContext() : base("name=JournalContext") { }
 
     }
 }

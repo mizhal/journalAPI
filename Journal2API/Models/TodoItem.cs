@@ -23,8 +23,8 @@ namespace Journal2API.Models
         }
     }
 
-    public partial class Journal2ApiContext: DbContext
+    public partial class JournalContext: DbContext
     {
-        public DbSet<TodoItem> TodoItems { get; set; }
+        public virtual DbSet<TodoItem> TodoItems { get; set; }
     }
 }

@@ -6,10 +6,14 @@ using System.Data.Entity;
 
 namespace Journal2API.Models
 {
-    public abstract class HasTimestamp
+    public interface HasTimestamp
     {
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        DateTime CreatedAt { get; set; }
+        DateTime UpdatedAt { get; set; }
+    }
+
+    public interface HasWorkflow
+    {
     }
 
     public interface Item

@@ -7,15 +7,17 @@ using System.Data.Entity;
 
 namespace Journal2API.Models
 {
-    public class TodoItem : HasTimestamp, Item, Commentable, Nestable<TodoItem>
+    public class TodoItem : HasTimestamp, HasWorkflow, Item, Commentable, Nestable<TodoItem>
     {
         public int Id { get; set; }
-        public Workflow Workflow { get; set; }
         public int Status { get; set; }
         public string Title { get; set; }
 
         public TodoItem Parent { get; set; }
         public List<TodoItem> Children { get; set;}
+
+        public DateTime CreatedAt { get; set;}
+        public DateTime UpdatedAt { get; set; }
 
         public List<TodoItem> roots()
         {

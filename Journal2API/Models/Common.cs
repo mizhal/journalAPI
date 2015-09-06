@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using MySql.Data.Entity;
 
 namespace Journal2API.Models
 {
@@ -30,9 +31,12 @@ namespace Journal2API.Models
         List<T> roots();
     }
 
+    [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public partial class JournalContext : DbContext
     {
-        public JournalContext() : base("name=JournalContext") { }
+        public JournalContext() : base("name=JournalContext") {
+            Database.SetInitializer<JournalContext>(null);
+        }
 
     }
 }

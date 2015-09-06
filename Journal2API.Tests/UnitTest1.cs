@@ -19,5 +19,21 @@ namespace Journal2API.Tests
             Assert.AreEqual(todo.Title, "Todo 1", "Title is equal");
             Assert.AreEqual(todo.Title, "xxx", "Made up to fail"); 
         }
+
+        [TestMethod]
+        public void TestEntityConnection()
+        {
+
+            using (var ctx = new JournalContext())
+            {
+                var todo = ctx.TodoItems.Create();
+
+                todo.Title = "Todo1";
+
+                ctx.TodoItems.Add(todo);
+                ctx.SaveChanges();
+
+            }
+        }
     }
 }

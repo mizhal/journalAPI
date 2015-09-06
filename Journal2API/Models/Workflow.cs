@@ -9,9 +9,9 @@ namespace Journal2API.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<string> States { get; set; }
-        public Dictionary<int, List<int>> Transitions { get; set; }
-        public Log log { get; set; }
+        private List<string> States { get; set; }
+        private Dictionary<int, List<int>> Transitions { get; set; }
+        private Log log { get; set; }
 
         public bool validTransition(int origin_status, int final_status)
         {

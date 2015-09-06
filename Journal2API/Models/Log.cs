@@ -8,26 +8,25 @@ using System.Data.Entity;
 namespace Journal2API.Models
 {
     public class Log
+    { 
+    }
+    
+    public class LogItem : HasTimestamp, Item
     {
-        public List<LogItem> items { get; set; }
-
-        public class LogItem : HasTimestamp, Item
+        public int Id
         {
-            public int Id
-            {
-                get;
-                set;
-            }
-            public string Text
-            {
-                get;
-                set;
-            }
+            get;
+            set;
         }
-
-        public partial class JournalContext: DbContext
+        public string Text
         {
-            public virtual DbSet<LogItem> LogItems { get; set; }
+            get;
+            set;
         }
+    }
+
+    public partial class JournalContext : DbContext
+    {
+        public virtual DbSet<LogItem> LogItems { get; set; }
     }
 }

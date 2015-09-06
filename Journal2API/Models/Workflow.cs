@@ -7,6 +7,7 @@ namespace Journal2API.Models
 {
     public class Workflow
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public List<string> States { get; set; }
         public Dictionary<int, List<int>> Transitions { get; set; }

@@ -223,7 +223,8 @@
     </Compile>
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Comment.cs" />
-    <Compile Include="Models\Extensions.cs" />
+    <Compile Include="Models\IHasWorkflow.cs" />
+    <Compile Include="Models\INestable.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\Quest.cs" />
     <Compile Include="Models\TodoItem.cs" />

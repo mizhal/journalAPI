@@ -6,9 +6,7 @@ using System.Data.Entity;
 
 namespace Journal2API.Models
 {
-    using Extensions;
-
-    public class Quest : Item, HasTimestamp, HasWorkflow, Commentable
+    public class Quest : Item, HasTimestamp, IHasWorkflow, Commentable
     {
         public int Id { get; set; }
 

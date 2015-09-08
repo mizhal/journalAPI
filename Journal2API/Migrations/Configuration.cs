@@ -11,6 +11,8 @@ namespace Journal2API.Migrations
         {
             AutomaticMigrationsEnabled = false;
 
+            SetSqlGenerator("MySql.Data.MySqlClient", new MySql.Data.Entity.MySqlMigrationSqlGenerator());
+            CodeGenerator = new MySql.Data.Entity.MySqlMigrationCodeGenerator();
         }
 
         protected override void Seed(Journal2API.Models.JournalContext context)

@@ -23,7 +23,7 @@ namespace Journal2API.Models
                 var set = ctx.Set<T>();
                 set.Add(item as T);
                 set.Add(before_this as T);
-                var next_items = set.Where(x => before_this.Position >= item.Position);
+                var next_items = set.Where(x => x.Position >= before_this.Position);
                 foreach (var it in next_items)
                 {
                     it.Position++;

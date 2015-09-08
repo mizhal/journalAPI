@@ -90,7 +90,7 @@ namespace Journal2API.Models
         public string ClassName { get; set; }
         [Index("Definition", 1, IsUnique = true)]
         public Workflow Workflow { get; set; }
-    }
+        }
 
     public partial class JournalContext: DbContext
     {

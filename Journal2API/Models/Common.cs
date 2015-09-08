@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.Entity;
+using MySql.Data.Entity;
 
 namespace Journal2API.Models
 {
@@ -11,7 +12,7 @@ namespace Journal2API.Models
         DateTime CreatedAt { get; set; }
         DateTime UpdatedAt { get; set; }
     }
-    
+
     public interface Item
     {
         int Id { get; set; }
@@ -22,9 +23,12 @@ namespace Journal2API.Models
 
     }
 
+    [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public partial class JournalContext : DbContext
     {
-        public JournalContext() : base("name=JournalContext") { }
+        public JournalContext() : base("name=JournalContext") {
+            Database.SetInitializer<JournalContext>(null);
+        }
 
     }
 }

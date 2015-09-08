@@ -13,7 +13,7 @@ namespace Journal2API.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201509062033277_Initial"; }
+            get { return "201509080939340_Initial"; }
         }
         
         string IMigrationMetadata.Source

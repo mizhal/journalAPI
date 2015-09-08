@@ -28,6 +28,7 @@ namespace Journal2API.Models
     {
         public JournalContext() : base("name=JournalContext") {
             Database.SetInitializer<JournalContext>(null);
+            Configuration.ProxyCreationEnabled = true;
         }
 
     }

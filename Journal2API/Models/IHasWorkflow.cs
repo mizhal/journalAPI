@@ -15,10 +15,10 @@ namespace Journal2API.Models
         {
             using (var ctx = new JournalContext())
             {
-                var def = ctx.WorkflowDefinitions.Find(r => r.ClassName == item.GetType().Name);
-                if (def != null)
+                var def = ctx.WorkflowDefinitions.Where(r => r.ClassName == item.GetType().Name);
+                if (def.Any())
                 {
-                    return def.Workflow;
+                    return def.First().Workflow;
                 }
                 else
                 {

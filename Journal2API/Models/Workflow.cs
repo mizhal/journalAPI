@@ -13,50 +13,49 @@ namespace Journal2API.Models
         public int Id { get; set; }
         [Index(IsUnique=true)]
         [MaxLength(64)]
+        [Required]
         public string Name { get; set; }
         [MaxLength(255)]
         public string Description { get; set; }
-        public virtual List<WorkflowTransition> Transitions { get; set; }
-        public virtual List<WorkflowState> States { get; set; }
-
-        private Dictionary<int, List<int>> _CompiledTransitions;
-        private Dictionary<string, WorkflowState> _StateIndex;
+        public virtual ICollection<WorkflowTransition> Transitions { get; set; }
+        public virtual ICollection<WorkflowState> States { get; set; }
 
         public Workflow()
         {
-            _CompiledTransitions = new Dictionary<int, List<int>>();
-            _StateIndex = new Dictionary<string, WorkflowState>();
+            States = new HashSet<WorkflowState>();
+            Transitions = new HashSet<WorkflowTransition>();
         }
 
         public bool validTransition(int origin_status, int final_status)
         {
-            if (_CompiledTransitions[origin_status].Contains(final_status))
-                return true; // transicion definida en el workflow como valida
-            else
-                return false; // transicion no definida o invalida
+            return false; // transicion no definida o invalida
         }
 
         public List<int> getValidTransitions(int status)
         {
-            return _CompiledTransitions[status];
+            return new List<int>();
         }
 
         public void defineState(string name)
         {
-            if (_StateIndex.ContainsKey(name))
+            if (States.Where(r => r.Name == name).Any())
                 throw new Exception($"Workflow state {name} already exists");
             else
             {
                 var state = new WorkflowState { Name = name, Workflow = this };
                 States.Add(state);
-                _StateIndex[name] = state;
             }
+        }
+
+        public WorkflowState getState(string name)
+        {
+            return States.First(r => r.Name == name);
         }
 
         public void defineTransition(string name_from, string name_to)
         {
-            var from = _StateIndex[name_from];
-            var to = _StateIndex[name_to];
+            var from = States.First(x => x.Name == name_from);
+            var to = States.First(x => x.Name == name_to);
             var transition = new WorkflowTransition { Origin = from, Destination = to, Workflow = this };
             Transitions.Add(transition);
         }
@@ -87,6 +86,7 @@ namespace Journal2API.Models
     {
         public int Id { get; set; }
         [Index("Definition", 0, IsUnique = true)]
+        [MaxLength(128)]
         public string ClassName { get; set; }
         [Index("Definition", 1, IsUnique = true)]
         public Workflow Workflow { get; set; }
@@ -94,9 +94,9 @@ namespace Journal2API.Models
 
     public partial class JournalContext: DbContext
     {
-        public virtual List<WorkflowTransition> WorkflowItems { get; set; }
-        public virtual List<WorkflowDefinition> WorkflowDefinitions { get; set; }
-        public virtual List<WorkflowState> WorkflowStates { get; set; }
-        public virtual List<Workflow> Workflows { get; set; }
+        public virtual DbSet<WorkflowTransition> WorkflowItems { get; set; }
+        public virtual DbSet<WorkflowDefinition> WorkflowDefinitions { get; set; }
+        public virtual DbSet<WorkflowState> WorkflowStates { get; set; }
+        public virtual DbSet<Workflow> Workflows { get; set; }
     }
 }

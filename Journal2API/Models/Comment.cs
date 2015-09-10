@@ -13,6 +13,8 @@ namespace Journal2API.Models
         public string Author { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public string ClassName { get; set; }
+        public int ObjectId { get; set; }
     }
 
     public partial class JournalContext: DbContext

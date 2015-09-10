@@ -18,11 +18,6 @@ namespace Journal2API.Models
         int Id { get; set; }
     }
 
-    public interface Commentable
-    {
-
-    }
-
     [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public partial class JournalContext : DbContext
     {

@@ -7,7 +7,7 @@ using System.Data.Entity;
 
 namespace Journal2API.Models
 {
-    public class TodoItem : HasTimestamp, IHasWorkflow, Item, Commentable, INestable<TodoItem>
+    public class TodoItem : HasTimestamp, IHasWorkflow, Item, ICommentable, INestable<TodoItem>
     {
         public int Id { get; set; }
         public WorkflowState State { get; set; }

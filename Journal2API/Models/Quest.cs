@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Journal2API.Models
 {
-    public class Quest : Item, HasTimestamp, IHasWorkflow, Commentable, ISortable<Quest>
+    public class Quest : Item, HasTimestamp, IHasWorkflow, ICommentable, ISortable<Quest>
     {
         public int Id { get; set; }
 

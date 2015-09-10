@@ -238,6 +238,7 @@
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\IHasWorkflow.cs" />
     <Compile Include="Models\INestable.cs" />
+    <Compile Include="Models\ICommentable.cs" />
     <Compile Include="Models\ISortable.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\Quest.cs" />

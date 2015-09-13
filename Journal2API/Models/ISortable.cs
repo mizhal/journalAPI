@@ -92,9 +92,32 @@ namespace Journal2API.Models
             return item.Next() == null;
         }
 
+        public static void Init<T>(this ISortable<T> item) where T : class, ISortable<T>
+        {
+            using (var ctx = new JournalContext())
+            {
+                var after_element = SortableHelper.Last<T>();
+                int position;
+                SortableHelper.InsertBetween(after_element, null, out position);
+                item.Position = position;
+
+                ctx.Set<T>().Add(item as T);
+                ctx.SaveChanges();
+            }
+        }
+
         static class SortableHelper
         {
             public const int GAP = 100;
+
+            public static ISortable<T> Last<T>() where T : class, ISortable<T>
+            {
+                using (var ctx = new JournalContext())
+                {
+                    var set = ctx.Set<T>();
+                    return set.OrderByDescending(x => x.Position).First();
+                };
+            }
 
             public static void InsertBetween<T>(ISortable<T> first, ISortable<T> second, out int position) where T : class, ISortable<T>
             {

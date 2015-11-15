@@ -6,7 +6,7 @@ using System.Data.Entity;
 
 namespace Journal2API.Models
 {
-    public class Comment : HasTimestamp, Item
+    public class Comment : HasTimestamp, IItem
     {
         public int Id { get; set; }
         public string Content { get; set; }

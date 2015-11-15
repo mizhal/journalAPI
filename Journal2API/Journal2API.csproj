@@ -139,6 +139,10 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="YamlDotNet, Version=3.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.3.7.0\lib\net35\YamlDotNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">
@@ -233,6 +237,10 @@
     <Compile Include="Migrations\201509081932111_Initial.Designer.cs">
       <DependentUpon>201509081932111_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201511151353563_PendingChanges.cs" />
+    <Compile Include="Migrations\201511151353563_PendingChanges.Designer.cs">
+      <DependentUpon>201511151353563_PendingChanges.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -288,7 +296,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -320,6 +330,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201509081932111_Initial.resx">
       <DependentUpon>201509081932111_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511151353563_PendingChanges.resx">
+      <DependentUpon>201511151353563_PendingChanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

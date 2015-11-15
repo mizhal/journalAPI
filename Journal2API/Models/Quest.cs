@@ -7,8 +7,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Journal2API.Models
 {
-    public class Quest : Item, HasTimestamp, IHasWorkflow, ICommentable, ISortable<Quest>
+    public class Quest : IItem, HasTimestamp, IHasWorkflow, ICommentable, ISortable<Quest>
     {
+
+        #region "Campos"
         public int Id { get; set; }
 
         [Required]
@@ -28,6 +30,24 @@ namespace Journal2API.Models
 
         [Required]
         public int Position { get; set; }
+        #endregion
+
+        #region Operadores de comparacion
+        public override bool Equals(object obj)
+        {
+            if (obj is Quest)
+            {
+                var obj_ = obj as Quest;
+                return obj_.Id == this.Id;
+            }
+            else return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Id;
+        }
+        #endregion
 
         public interface QuestSection
         {

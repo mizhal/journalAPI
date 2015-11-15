@@ -5,21 +5,21 @@ using System.Web;
 
 namespace Journal2API.Models
 {
-    public interface ISortable<T> where T : ISortable<T>
+    public interface ISortable<T> : IItem
     {
         int Position { get; set; }
     }
 
     public static class ISortableExtensions
     {
-        public static void InsertBefore<T>(this ISortable<T> item, ISortable<T> before_this) where T : class, ISortable<T>
+        public static void InsertBefore<T>(this ISortable<T> item, ISortable<T> before_this) where T : class, ISortable<T>, IItem
         {
             using (var ctx = new JournalContext())
             {
                 ISortable<T> prev_element = before_this.Previous();
 
                 int position;
-                SortableHelper.InsertBetween(prev_element, before_this, out position);
+                SortableHelper.InsertBetween(ref prev_element, ref before_this, out position);
                 item.Position = position;
 
                 var set = ctx.Set<T>();
@@ -36,7 +36,7 @@ namespace Journal2API.Models
                 ISortable<T> next_element = after_this.Next();
             
                 int position;
-                SortableHelper.InsertBetween(after_this, next_element, out position);
+                SortableHelper.InsertBetween(ref after_this, ref next_element, out position);
                 item.Position = position;
 
                 var set = ctx.Set<T>();
@@ -66,8 +66,8 @@ namespace Journal2API.Models
         {
             using(var ctx = new JournalContext())
             {
-                var found = ctx.Set<T>().OrderBy(r => r.Position).
-                    First(r => r.Position < item.Position);
+                var found = ctx.Set<T>().OrderByDescending(r => r.Position)
+                    .FirstOrDefault(r => r.Position < item.Position);
                 return found;
             }
         }
@@ -77,7 +77,7 @@ namespace Journal2API.Models
             using (var ctx = new JournalContext())
             {
                 var found = ctx.Set<T>().OrderBy(r => r.Position).
-                    First(r => r.Position > item.Position);
+                    FirstOrDefault(r => r.Position > item.Position);
                 return found;
             }
         }
@@ -92,13 +92,14 @@ namespace Journal2API.Models
             return item.Next() == null;
         }
 
-        public static void Init<T>(this ISortable<T> item) where T : class, ISortable<T>
+        public static void InitSortable<T>(this ISortable<T> item) where T : class, ISortable<T>
         {
             using (var ctx = new JournalContext())
             {
                 var after_element = SortableHelper.Last<T>();
                 int position;
-                SortableHelper.InsertBetween(after_element, null, out position);
+                ISortable<T> nullref = null;
+                SortableHelper.InsertBetween(ref after_element, ref nullref, out position);
                 item.Position = position;
 
                 ctx.Set<T>().Add(item as T);
@@ -115,11 +116,11 @@ namespace Journal2API.Models
                 using (var ctx = new JournalContext())
                 {
                     var set = ctx.Set<T>();
-                    return set.OrderByDescending(x => x.Position).First();
+                    return set.OrderByDescending(x => x.Position).FirstOrDefault();
                 };
             }
 
-            public static void InsertBetween<T>(ISortable<T> first, ISortable<T> second, out int position) where T : class, ISortable<T>
+            public static void InsertBetween<T>(ref ISortable<T> first, ref ISortable<T> second, out int position) where T : class, ISortable<T>
             {
                 int second_position;
                 int first_position;
@@ -145,12 +146,13 @@ namespace Journal2API.Models
                     position = first_position + (second_position - first_position) / 2;
                 } else
                 {
-                    RearrangePositions<T>();
-                    InsertBetween(first, second, out position);
+                    RearrangePositions<T>(ref first, ref second);
+                    InsertBetween(ref first, ref second, out position);
                 }
             }
 
-            public static void RearrangePositions<T>() where T : class, ISortable<T>
+            public static void RearrangePositions<T>(ref ISortable<T> first, ref ISortable<T> second) 
+                where T : class, ISortable<T>
             {
                 // Re-allocates positions evenly separated to allow insertions between elements
                 // without the necessity to recalculate the positions of next elements 
@@ -168,13 +170,18 @@ namespace Journal2API.Models
                         throw new WrapAlert();
                     }
 
-                    foreach (var element in set)
+                    var all = from el in ctx.Set<T>()
+                              select el;
+                    foreach (T element in all)
                     {
                         element.Position = counter * GAP;
                         counter++;
-                        set.Add(element);
                     }
+                    ctx.Configuration.ValidateOnSaveEnabled = false;
                     ctx.SaveChanges();
+                    ctx.Configuration.ValidateOnSaveEnabled = true;
+                    first = set.Find(first.Id);
+                    second = set.Find(second.Id);
                 }
             }
         }

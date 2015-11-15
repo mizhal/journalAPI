@@ -13,7 +13,7 @@ namespace Journal2API.Models
         DateTime UpdatedAt { get; set; }
     }
 
-    public interface Item
+    public interface IItem
     {
         int Id { get; set; }
     }

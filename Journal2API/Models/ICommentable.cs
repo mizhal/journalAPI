@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Journal2API.Models
 {
-    public interface ICommentable: Item
+    public interface ICommentable: IItem
     {
 
     }

@@ -11,7 +11,7 @@ namespace Journal2API.Models
     { 
     }
     
-    public class LogItem : HasTimestamp, Item
+    public class LogItem : HasTimestamp, IItem
     {
         public int Id { get; set; }
         public string Text { get; set; }

@@ -40,8 +40,6 @@ namespace Journal2API.Models
                 item.Position = position;
 
                 var set = ctx.Set<T>();
-                set.Add(item as T);
-
                 ctx.SaveChanges();
             }
         }

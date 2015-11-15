@@ -92,11 +92,14 @@ namespace Journal2API.Tests
 
                 ctx.Quests.Add(quest);
                 ctx.Quests.Add(quest2);
+                ctx.Quests.Add(quest3);
                 ctx.SaveChanges();
 
                 quest2_id = quest2.Id;
 
                 quest3.InsertAfter(quest);
+                ctx.Quests.Add(quest3);
+                ctx.SaveChanges();
 
                 quest3_id = quest3.Id;
             }
@@ -105,7 +108,8 @@ namespace Journal2API.Tests
             {
                 var quest2 = ctx.Quests.Find(quest2_id);
                 var quest3 = ctx.Quests.Find(quest3_id);
-                Assert.AreEqual(quest2.Previous(), quest3);
+                var prev = quest2.Previous();
+                Assert.AreEqual(prev, quest3);
             }   
 
         }

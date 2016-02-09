@@ -9,6 +9,8 @@ namespace Journal2API.Models
     public class JournalRepo : IRepo,
         ICrudRepoParanoidFor<Quest>,
         ICrudRepoParanoidFor<TodoItem>,
+        ICrudRepoParanoidFor<Workflow>,
+        ICrudRepoParanoidFor<WorkflowState>,
         ICommentableRepo<Quest>,
         ICommentableRepo<TodoItem>,
         ISortableRepo<Quest>,

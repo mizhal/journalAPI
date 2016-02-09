@@ -8,6 +8,6 @@ namespace Journal2API.Models
 {
     public interface ISortable
     {
-        ulong Position { get; set; }
+        long Position { get; set; }
     }
 }

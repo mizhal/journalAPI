@@ -233,13 +233,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201509081932111_Initial.cs" />
-    <Compile Include="Migrations\201509081932111_Initial.Designer.cs">
-      <DependentUpon>201509081932111_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201511151353563_PendingChanges.cs" />
-    <Compile Include="Migrations\201511151353563_PendingChanges.Designer.cs">
-      <DependentUpon>201511151353563_PendingChanges.cs</DependentUpon>
+    <Compile Include="Migrations\201602092050307_Init.cs" />
+    <Compile Include="Migrations\201602092050307_Init.Designer.cs">
+      <DependentUpon>201602092050307_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Common.cs" />
@@ -334,11 +330,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201509081932111_Initial.resx">
-      <DependentUpon>201509081932111_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201511151353563_PendingChanges.resx">
-      <DependentUpon>201511151353563_PendingChanges.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201602092050307_Init.resx">
+      <DependentUpon>201602092050307_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

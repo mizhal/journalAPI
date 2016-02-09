@@ -29,7 +29,7 @@ namespace Journal2API.Models
         public DateTime UpdatedAt { get; set; }
         
         [Required]
-        public ulong Position { get; set; }
+        public long Position { get; set; }
 
         public List<QuestSection> Sections { get; set; }
 

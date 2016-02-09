@@ -11,8 +11,7 @@ namespace Journal2API.Tests
     [TestClass]
     public class UnitTestSortable
     {
-
-        JournalContext ctx; 
+        JournalRepo repo; 
 
         [ClassInitialize]
         public static void BeforeAll(TestContext ctx)
@@ -27,36 +26,48 @@ namespace Journal2API.Tests
         [TestInitialize]
         public void Initialize()
         {
-            ctx = new JournalContext();
+            repo = new JournalRepo();
             CreateState();
         }
 
         [TestCleanup]
         public void Cleanup()
         {
-            ctx.Dispose();
+            repo.Dispose();
         }
 
         [TestMethod]
         public void TestOrder()
         {
-            var repo = new JournalRepo();
+            var current_quest_count = repo.All<Quest>().Count();
 
-            var quest = ctx.Quests.Create();
+            var quest = repo.Create<Quest>();
             quest.Title = "Quest 1";
             quest.Position = 1;
             quest.State = GetState();
+            quest.Description = "";
+            repo.SaveOrUpdate(quest);
 
-            var quest2 = ctx.Quests.Create();
+            var quest2 = repo.Create<Quest>();
 
             quest2.Title = "Quest2";
             quest2.Position = 2;
             quest2.State = GetState();
+            quest2.Description = "";
+            repo.SaveOrUpdate(quest2);
 
             repo.InitSortable(quest);
             repo.InitSortable(quest2);
 
+            repo.SaveOrUpdate(quest);
+            repo.SaveOrUpdate(quest2);
+
             repo.Flush();
+
+            Assert.IsTrue(repo.All<Quest>().Count() == current_quest_count + 2, "We have unexpectedly duplicated objects");
+
+            quest = repo.Get<Quest>(quest.Id);
+            quest2 = repo.Get<Quest>(quest2.Id);
 
             Assert.AreEqual(quest.Id, repo.Previous(quest2).Id);
         }
@@ -64,12 +75,11 @@ namespace Journal2API.Tests
         [TestMethod]
         public void TestLoadSave()
         {
-            var quest = ctx.Quests.First();
+            var quest = repo.All<Quest>().First();
 
             Console.WriteLine(quest.State.Name);
 
-            ctx.Quests.Add(quest);
-            ctx.SaveChanges();
+            repo.Save(quest);
         }
 
         [TestMethod]
@@ -77,21 +87,19 @@ namespace Journal2API.Tests
         {
             var repo = new JournalRepo();
 
-            ulong quest2_id = 0, quest3_id = 0;
+            long quest2_id = 0, quest3_id = 0;
 
-            var quest = new Quest()
-            {
-                Title = "Quest1",
-                Position = 1,
-                State = GetState()
-            };
+            var quest = repo.Create<Quest>();
+            quest.Title = "Quest1";
+            quest.Position = 1;
+            quest.State = GetState();
 
-            var quest2 = new Quest();
+            var quest2 = repo.Create<Quest>();
             quest2.Title = "Quest2";
             quest2.Position = 2;
             quest2.State = GetState();
 
-            var quest3 = new Quest();
+            var quest3 = repo.Create<Quest>();
             quest3.Title = "Quest3";
             quest3.Position = 3;
             quest3.State = GetState();
@@ -121,25 +129,21 @@ namespace Journal2API.Tests
         {
             if (GetState() == null)
             {
-                var wf = ctx.Workflows.Create();
+                var wf = repo.Create<Workflow>();
                 wf.Name = "WF0";
-                var state = ctx.WorkflowStates.Create();
+                var state = repo.Create<WorkflowState>();
                 state.Name = "ST0";
                 wf.States.Add(state);
-                ctx.Workflows.Add(wf);
-                ctx.SaveChanges();
+                repo.Save(wf);
             }
         }
 
         WorkflowState GetState()
         {
-            if(ctx.WorkflowStates.Count() > 0)
-            {
-                return ctx.WorkflowStates.First();
-            } else
-            {
+            if(repo.All<WorkflowState>().Count() > 0)
+                return repo.All<WorkflowState>().First();
+            else
                 return null;
-            }
         }
     }
 }

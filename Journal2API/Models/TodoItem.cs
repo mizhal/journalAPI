@@ -20,7 +20,7 @@ namespace Journal2API.Models
         public DateTime CreatedAt { get; set;}
         public DateTime UpdatedAt { get; set; }
 
-        public ulong Position { get; set; }
+        public long Position { get; set; }
 
         public DateTime? DeletedAt { get; set; }
     }

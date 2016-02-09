@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Journal2API.Models
 {
-    public interface ICrudRepoParanoidFor<T> : ICrudRepoFor<T> where T : IParanoid
+    public interface ICrudRepoParanoidFor<T> : ICrudRepoFor<T> where T : IParanoid, HasTimestamp
     {
 
     }
@@ -14,7 +14,7 @@ namespace Journal2API.Models
     public static class ICrudRepoParanoidForExtensions
     {
         public static T Get<T>(this ICrudRepoParanoidFor<T> repo, long Id)
-            where T: class, IParanoid
+            where T: class, IParanoid, HasTimestamp
         {
             return repo.All()
                 .Where(x => x.Id == Id)
@@ -23,14 +23,14 @@ namespace Journal2API.Models
         }
 
         public static IQueryable<T> All<T>(this ICrudRepoParanoidFor<T> repo)
-            where T : class, IParanoid
+            where T : class, IParanoid, HasTimestamp
         {
             var ctx = repo.CurrentContext();
-            return ctx.Set<T>().Where(x => x.DeletedAt != null);
+            return ctx.Set<T>().Where(x => x.DeletedAt == null);
         }
 
         public static void Delete<T>(this ICrudRepoParanoidFor<T> repo, T item)
-            where T : class, IParanoid
+            where T : class, IParanoid, HasTimestamp
         {
             var ctx = repo.CurrentContext();
             item.DeletedAt = DateTime.Now;

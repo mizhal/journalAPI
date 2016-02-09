@@ -8,10 +8,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Journal2API.Models
 {
-    public class Workflow
+    public class Workflow: IParanoid, HasTimestamp
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
+        public DateTime? DeletedAt { get; set; }
         [Index(IsUnique=true)]
         [MaxLength(64)]
         [Required]
@@ -20,6 +21,9 @@ namespace Journal2API.Models
         public string Description { get; set; }
         public virtual ICollection<WorkflowTransition> Transitions { get; set; }
         public virtual ICollection<WorkflowState> States { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
         public Workflow()
         {
@@ -62,35 +66,43 @@ namespace Journal2API.Models
         }
     }
 
-    public class WorkflowState
+    public class WorkflowState: IParanoid, HasTimestamp
     {
-        public int Id { get; set; }
+        
+        public DateTime? DeletedAt { get; set; }
+        public long Id { get; set; }
         [MaxLength(128)]
         [Index("StateName", 0, IsUnique=true)]
         public string Name { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+
         [Index("StateName", 1, IsUnique = true)]
-        public Workflow Workflow { get; set; }
+        public virtual Workflow Workflow { get; set; }
     }
 
-    public class WorkflowTransition
+    public class WorkflowTransition: IParanoid
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
+        public DateTime? DeletedAt { get; set; }
         [Index("Transition", 0, IsUnique = true)]
         public WorkflowState Origin { get; set; }
         [Index("Transition", 1, IsUnique = true)]
         public WorkflowState Destination { get; set; }
         [Index("Transition", 2, IsUnique = true)]
-        public Workflow Workflow { get; set; }
+        public virtual Workflow Workflow { get; set; }
     }
 
-    public class WorkflowDefinition
+    public class WorkflowDefinition: IParanoid
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
+        public DateTime? DeletedAt { get; set; }
         [Index("Definition", 0, IsUnique = true)]
         [MaxLength(128)]
         public string ClassName { get; set; }
         [Index("Definition", 1, IsUnique = true)]
-        public Workflow Workflow { get; set; }
+        public virtual Workflow Workflow { get; set; }
         }
 
     public partial class JournalContext: DbContext

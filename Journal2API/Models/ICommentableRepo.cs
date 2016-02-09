@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Journal2API.Models
 {
-    public interface ICommentableRepo<T>:IRepo where T:IItem
+    public interface ICommentableRepo<T>: ICrudRepoFor<Comment> where T:IItem
     {
         
     }
@@ -22,22 +22,17 @@ namespace Journal2API.Models
                 comment.ClassName = obj.GetType().Name;
                 comment.ObjectId = obj.Id;
 
-                var set = ctx.Set<Comment>();
-                set.Add(comment);
-                ctx.SaveChanges();
+                repo.Save(comment);
             }
         }
         
         public static IQueryable<Comment> Comments<T>(this ICommentableRepo<T> repo, T obj)
             where T :IItem
         {
-            using (var ctx = repo.CurrentContext())
-            {
-                return ctx.Set<Comment>()
-                    .Where(r => r.ClassName == obj.GetType().Name)
-                    .Where(r => r.ObjectId == obj.Id)
-                    ;
-            }
+            return repo.All<Comment>()
+                .Where(r => r.ClassName == obj.GetType().Name)
+                .Where(r => r.ObjectId == obj.Id)
+                ;
         }
     }
 }

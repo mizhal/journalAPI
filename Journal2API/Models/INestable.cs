@@ -10,50 +10,45 @@ namespace Journal2API.Models
         T Parent { get; set; }
     }
 
-    public interface INestableRepo<T>: IRepo, ISortableRepo<T> where T : INestable<T>
+    public interface INestableRepo<T>: ICrudRepoFor<T>, ISortableRepo<T> where T : INestable<T>, HasTimestamp
     {
 
     }
 
     public static class INestableRepoExtension
     {
-        public static IQueryable<T> Roots<T>(this INestableRepo<T> repo, T nestable) where T:class, INestable<T>
+        public static IQueryable<T> Roots<T>(this INestableRepo<T> repo, T nestable) where T:class, INestable<T>, HasTimestamp
         {
-            var ctx = repo.CurrentContext();
-            return ctx.Set<T>().Where(y => y.Parent == null);
+            return repo.All<T>().Where(y => y.Parent == null);
         }
 
-        public static IQueryable<T> Children<T>(this INestableRepo<T> repo, T nestable) where T : class, INestable<T>
+        public static IQueryable<T> Children<T>(this INestableRepo<T> repo, T nestable) where T : class, INestable<T>, HasTimestamp
         {
-            var ctx = repo.CurrentContext();
-            return ctx.Set<T>().Where(y => y.Parent == nestable);
+            return repo.All<T>().Where(y => y.Parent == nestable);
         }
 
-        public static void AddChild<T>(this INestableRepo<T> repo, T nestable, T node) where T : class, INestable<T>
+        public static void AddChild<T>(this INestableRepo<T> repo, T nestable, T node) where T : class, INestable<T>, HasTimestamp
         {
-            var ctx = repo.CurrentContext();
             node.Parent = nestable;
-            ctx.Set<T>().Add(node);
+            repo.SaveOrUpdate(node);
         }
 
         public static void InsertBefore<T>(this INestableRepo<T> repo, T nestable, T before_this)
-            where T : class, INestable<T>
+            where T : class, INestable<T>, HasTimestamp
         {
             repo.InsertBefore(nestable, before_this);
             repo.KeepParent(nestable, before_this);
         }
 
         public static void KeepParent<T>(this INestableRepo<T> repo, T nestable, T other)
-            where T : class, INestable<T>
+            where T : class, INestable<T>, HasTimestamp
         {
-            var ctx = repo.CurrentContext();
             nestable.Parent = other.Parent;
-            var set = ctx.Set<T>();
-            set.Add(nestable as T);
+            repo.SaveOrUpdate(nestable);
         }
 
         public static void InsertAfter<T>(this INestableRepo<T> repo, T nestable, T after_this)
-            where T : class, INestable<T>
+            where T : class, INestable<T>, HasTimestamp
         {
             repo.InsertAfter(nestable, after_this);
             repo.KeepParent(nestable, after_this);

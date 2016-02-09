@@ -7,9 +7,9 @@ using System.Data.Entity;
 
 namespace Journal2API.Models
 {
-    public class TodoItem : HasTimestamp, IHasWorkflow, IItem, ICommentable, INestable<TodoItem>
+    public class TodoItem : HasTimestamp, IParanoid, IHasWorkflow, IItem, INestable<TodoItem>
     {
-        public int Id { get; set; }
+        public ulong Id { get; set; }
         public WorkflowState State { get; set; }
         public string Title { get; set; }
 
@@ -18,7 +18,9 @@ namespace Journal2API.Models
         public DateTime CreatedAt { get; set;}
         public DateTime UpdatedAt { get; set; }
 
-        public int Position { get; set; }
+        public ulong Position { get; set; }
+
+        public DateTime? DeletedAt { get; set; }
     }
 
     public partial class JournalContext: DbContext

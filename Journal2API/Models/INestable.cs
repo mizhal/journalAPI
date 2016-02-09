@@ -5,63 +5,58 @@ using System.Web;
 
 namespace Journal2API.Models
 {
-    public interface INestable<T>: ISortable<INestable<T>>
+    public interface INestable<T>: ISortable, IItem
     {
         T Parent { get; set; }
     }
 
-    public static class INestableExtension
+    public interface INestableRepo<T>: IRepo, ISortableRepo<T> where T : INestable<T>
     {
-        public static IQueryable<T> Roots<T>(this INestable<T> nestable) where T:class, INestable<T>
+
+    }
+
+    public static class INestableRepoExtension
+    {
+        public static IQueryable<T> Roots<T>(this INestableRepo<T> repo, T nestable) where T:class, INestable<T>
         {
-            using (var ctx = new JournalContext())
-            {
-                return ctx.Set<T>().Where(y => y.Parent == null);
-            }
+            var ctx = repo.CurrentContext();
+            return ctx.Set<T>().Where(y => y.Parent == null);
         }
 
-        public static IQueryable<T> Children<T>(this INestable<T> nestable) where T : class, INestable<T>
+        public static IQueryable<T> Children<T>(this INestableRepo<T> repo, T nestable) where T : class, INestable<T>
         {
-            using ( var ctx = new JournalContext())
-            {
-                return ctx.Set<T>().Where(y => y.Parent == nestable);
-            } 
+            var ctx = repo.CurrentContext();
+            return ctx.Set<T>().Where(y => y.Parent == nestable);
         }
 
-        public static void AddChild<T>(this INestable<T> nestable, int position, T node) where T : class, INestable<T>
+        public static void AddChild<T>(this INestableRepo<T> repo, T nestable, T node) where T : class, INestable<T>
         {
-            using (var ctx = new JournalContext())
-            {
-                node.Parent = (nestable as T);
-                ctx.Set<T>().Add(node);
-                ctx.SaveChanges();
-            }
+            var ctx = repo.CurrentContext();
+            node.Parent = nestable;
+            ctx.Set<T>().Add(node);
         }
 
-        public static void InsertBefore<T>(this INestable<T> nestable, INestable<T> before_this)
+        public static void InsertBefore<T>(this INestableRepo<T> repo, T nestable, T before_this)
             where T : class, INestable<T>
         {
-            (nestable as ISortable<INestable<T>>).InsertBefore(before_this as ISortable<INestable<T>>);
-            nestable.KeepParent(before_this);
+            repo.InsertBefore(nestable, before_this);
+            repo.KeepParent(nestable, before_this);
         }
 
-        public static void KeepParent<T>(this INestable<T>  nestable, INestable<T> other)
+        public static void KeepParent<T>(this INestableRepo<T> repo, T nestable, T other)
             where T : class, INestable<T>
         {
-            using (var ctx = new JournalContext())
-            {
-                nestable.Parent = other.Parent;
-                var set = ctx.Set<T>();
-                set.Add(nestable as T);
-                ctx.SaveChanges();
-            }
+            var ctx = repo.CurrentContext();
+            nestable.Parent = other.Parent;
+            var set = ctx.Set<T>();
+            set.Add(nestable as T);
         }
 
-        public static void InsertAfter<T>(this INestable<T> nestable, INestable<T> after_this)
+        public static void InsertAfter<T>(this INestableRepo<T> repo, T nestable, T after_this)
             where T : class, INestable<T>
         {
-            (nestable as ISortable<INestable<T>>).InsertAfter(after_this as ISortable<INestable<T>>);
-            nestable.KeepParent(after_this);
+            repo.InsertAfter(nestable, after_this);
+            repo.KeepParent(nestable, after_this);
         }
     }
 }

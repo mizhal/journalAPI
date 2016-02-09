@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Journal2API.Models
 {
-    public interface ISortable
+    public interface IParanoid : IItem
     {
-        ulong Position { get; set; }
+        DateTime? DeletedAt { get; set; }
     }
 }

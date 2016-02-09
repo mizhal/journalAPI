@@ -40,6 +40,8 @@ namespace Journal2API.Tests
         [TestMethod]
         public void TestOrder()
         {
+            var repo = new JournalRepo();
+
             var quest = ctx.Quests.Create();
             quest.Title = "Quest 1";
             quest.Position = 1;
@@ -51,10 +53,12 @@ namespace Journal2API.Tests
             quest2.Position = 2;
             quest2.State = GetState();
 
-            quest.InitSortable();
-            quest2.InitSortable();
+            repo.InitSortable(quest);
+            repo.InitSortable(quest2);
 
-            Assert.AreEqual(quest.Id, quest2.Previous().Id);
+            repo.Flush();
+
+            Assert.AreEqual(quest.Id, repo.Previous(quest2).Id);
         }
 
         [TestMethod]
@@ -71,46 +75,45 @@ namespace Journal2API.Tests
         [TestMethod]
         public void TestInsertion()
         {
-            int quest2_id = 0, quest3_id = 0;
+            var repo = new JournalRepo();
 
-            using (var ctx = new JournalContext())
+            ulong quest2_id = 0, quest3_id = 0;
+
+            var quest = new Quest()
             {
-                var quest = ctx.Quests.Create();
-                quest.Title = "Quest1";
-                quest.Position = 1;
-                quest.State = GetState();
+                Title = "Quest1",
+                Position = 1,
+                State = GetState()
+            };
 
-                var quest2 = ctx.Quests.Create();
-                quest2.Title = "Quest2";
-                quest2.Position = 2;
-                quest2.State = GetState();
+            var quest2 = new Quest();
+            quest2.Title = "Quest2";
+            quest2.Position = 2;
+            quest2.State = GetState();
 
-                var quest3 = ctx.Quests.Create();
-                quest3.Title = "Quest3";
-                quest3.Position = -1;
-                quest3.State = GetState();
+            var quest3 = new Quest();
+            quest3.Title = "Quest3";
+            quest3.Position = 3;
+            quest3.State = GetState();
 
-                ctx.Quests.Add(quest);
-                ctx.Quests.Add(quest2);
-                ctx.Quests.Add(quest3);
-                ctx.SaveChanges();
+            repo.Save(quest);
+            repo.Save(quest2);
+            repo.Save(quest3);
 
-                quest2_id = quest2.Id;
+            quest2_id = quest2.Id;
 
-                quest3.InsertAfter(quest);
-                ctx.Quests.Add(quest3);
-                ctx.SaveChanges();
+            repo.InsertAfter(quest3, quest);
+            repo.Save(quest3);
 
-                quest3_id = quest3.Id;
-            }
+            quest3_id = quest3.Id;
 
-            using (var ctx = new JournalContext())
-            {
-                var quest2 = ctx.Quests.Find(quest2_id);
-                var quest3 = ctx.Quests.Find(quest3_id);
-                var prev = quest2.Previous();
-                Assert.AreEqual(prev, quest3);
-            }   
+            repo.Flush();
+
+            var quest2_ = repo.Get<Quest>(quest2_id);
+            var quest3_ = repo.Get<Quest>(quest3_id);
+            var prev = repo.Previous(quest2_);
+            
+            Assert.AreEqual(prev, quest3_);
 
         }
 

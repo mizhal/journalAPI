@@ -7,11 +7,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Journal2API.Models
 {
-    public class Quest : IItem, HasTimestamp, IHasWorkflow, ICommentable, ISortable<Quest>
+
+    public class Quest : IItem, IParanoid, HasTimestamp, IHasWorkflow, ISortable
     {
 
-        #region "Campos"
-        public int Id { get; set; }
+        #region Campos
+        public ulong Id { get; set; }
 
         [Required]
         [MaxLength(255)]
@@ -25,11 +26,14 @@ namespace Journal2API.Models
 
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        
+        [Required]
+        public ulong Position { get; set; }
 
         public List<QuestSection> Sections { get; set; }
 
-        [Required]
-        public int Position { get; set; }
+        public DateTime? DeletedAt { get; set; }
+
         #endregion
 
         #region Operadores de comparacion
@@ -45,7 +49,7 @@ namespace Journal2API.Models
 
         public override int GetHashCode()
         {
-            return this.Id;
+            return (int) Id;
         }
         #endregion
 

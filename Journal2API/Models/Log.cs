@@ -13,7 +13,7 @@ namespace Journal2API.Models
     
     public class LogItem : HasTimestamp, IItem
     {
-        public int Id { get; set; }
+        public ulong Id { get; set; }
         public string Text { get; set; }
         public DateTime UpdatedAt { get; set; }
         public DateTime CreatedAt { get; set; }

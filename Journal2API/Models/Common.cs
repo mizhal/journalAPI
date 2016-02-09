@@ -15,7 +15,7 @@ namespace Journal2API.Models
 
     public interface IItem
     {
-        ulong Id { get; set; }
+        long Id { get; set; }
     }
 
     [DbConfigurationType(typeof(MySqlEFConfiguration))]

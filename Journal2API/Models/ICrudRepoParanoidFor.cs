@@ -13,7 +13,7 @@ namespace Journal2API.Models
 
     public static class ICrudRepoParanoidForExtensions
     {
-        public static T Get<T>(this ICrudRepoParanoidFor<T> repo, ulong Id)
+        public static T Get<T>(this ICrudRepoParanoidFor<T> repo, long Id)
             where T: class, IParanoid
         {
             return repo.All()

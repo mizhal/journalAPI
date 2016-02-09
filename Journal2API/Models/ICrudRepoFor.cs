@@ -13,7 +13,7 @@ namespace Journal2API.Models
 
     public static class ICrudRepoForExtensions
     {
-        public static T Get<T>(this ICrudRepoFor<T> repo, ulong Id)
+        public static T Get<T>(this ICrudRepoFor<T> repo, long Id)
             where T : class, IItem
         {
             return repo.All()
@@ -22,7 +22,7 @@ namespace Journal2API.Models
                 ;
         }
 
-        public static ulong Save<T>(this ICrudRepoFor<T> repo, T item)
+        public static long Save<T>(this ICrudRepoFor<T> repo, T item)
             where T : class, IItem
         {
             var ctx = repo.CurrentContext();
@@ -31,7 +31,7 @@ namespace Journal2API.Models
             ctx.SaveChanges();
             return item.Id;
         }
-        public static ulong Update<T>(this ICrudRepoFor<T> repo, T item)
+        public static long Update<T>(this ICrudRepoFor<T> repo, T item)
             where T : class, IItem
         {
             var ctx = repo.CurrentContext();
@@ -40,7 +40,7 @@ namespace Journal2API.Models
             ctx.SaveChanges();
             return item.Id;
         }
-        public static ulong SaveOrUpdate<T>(this ICrudRepoFor<T> repo, T item)
+        public static long SaveOrUpdate<T>(this ICrudRepoFor<T> repo, T item)
             where T : class, IItem
         {
             var ctx = repo.CurrentContext();
@@ -66,7 +66,7 @@ namespace Journal2API.Models
             ctx.SaveChanges();
         }
 
-        public static void Delete<T>(this ICrudRepoFor<T> repo, ulong Id)
+        public static void Delete<T>(this ICrudRepoFor<T> repo, long Id)
             where T : class, IItem
         {
             var item = repo.Get(Id);

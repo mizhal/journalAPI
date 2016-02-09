@@ -4,12 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using System.Data.Entity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Journal2API.Models
 {
     public class TodoItem : HasTimestamp, IParanoid, IHasWorkflow, IItem, INestable<TodoItem>
     {
-        public ulong Id { get; set; }
+        [Key]
+        public long Id { get; set; }
         public WorkflowState State { get; set; }
         public string Title { get; set; }
 

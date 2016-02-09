@@ -10,6 +10,7 @@ namespace Journal2API.Models
 {
     public class Workflow
     {
+        [Key]
         public int Id { get; set; }
         [Index(IsUnique=true)]
         [MaxLength(64)]

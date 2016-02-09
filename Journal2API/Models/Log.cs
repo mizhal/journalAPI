@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using System.Data.Entity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Journal2API.Models
 {
@@ -13,7 +14,8 @@ namespace Journal2API.Models
     
     public class LogItem : HasTimestamp, IItem
     {
-        public ulong Id { get; set; }
+        [Key]
+        public long Id { get; set; }
         public string Text { get; set; }
         public DateTime UpdatedAt { get; set; }
         public DateTime CreatedAt { get; set; }

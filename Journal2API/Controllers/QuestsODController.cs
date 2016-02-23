@@ -18,7 +18,7 @@ namespace Journal2API.Controllers
     {
         private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
 
-        private JournalRepo JournalRepo = new JournalRepo();
+        private JournalRepo JournalRepo;
 
         // GET: odata/QuestsOD
         public IHttpActionResult GetQuestsOD(ODataQueryOptions<Quest> queryOptions)
@@ -33,9 +33,12 @@ namespace Journal2API.Controllers
                 return BadRequest(ex.Message);
             }
 
-            var quests = (IQueryable<Quest>)queryOptions.ApplyTo(JournalRepo.All<Quest>());
+            using (JournalRepo = new JournalRepo())
+            {
+                var quests = (IQueryable<Quest>)queryOptions.ApplyTo(JournalRepo.All<Quest>());
 
-            return Ok<IEnumerable<Quest>>(quests);
+                return Ok<IEnumerable<Quest>>(quests);
+            }
         }
 
         // GET: odata/QuestsOD(5)
@@ -51,9 +54,12 @@ namespace Journal2API.Controllers
                 return BadRequest(ex.Message);
             }
 
-            var quest = JournalRepo.Get<Quest>(key);
+            using (JournalRepo = new JournalRepo())
+            {
+                var quest = JournalRepo.Get<Quest>(key);
 
-            return Ok<Quest>(quest);
+                return Ok<Quest>(quest);
+            }
         }
 
         // PUT: odata/QuestsOD(5)
@@ -66,13 +72,16 @@ namespace Journal2API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var quest = JournalRepo.Get<Quest>(key);
+            using (JournalRepo = new JournalRepo())
+            {
+                var quest = JournalRepo.Get<Quest>(key);
 
-            delta.Put(quest);
+                delta.Put(quest);
 
-            JournalRepo.Update<Quest>(quest);
+                JournalRepo.Update<Quest>(quest);
 
-            return Updated(quest);
+                return Updated(quest);
+            }
         }
 
         // POST: odata/QuestsOD
@@ -82,10 +91,13 @@ namespace Journal2API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
-            JournalRepo.Save<Quest>(quest);
 
-            return Created(quest);
+            using (JournalRepo = new JournalRepo())
+            {
+                JournalRepo.Save<Quest>(quest);
+
+                return Created(quest);
+            }
         }
 
         // PATCH: odata/QuestsOD(5)
@@ -99,22 +111,28 @@ namespace Journal2API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var quest = JournalRepo.Get<Quest>(key);
+            using (JournalRepo = new JournalRepo())
+            {
+                var quest = JournalRepo.Get<Quest>(key);
 
-            delta.Put(quest);
+                delta.Put(quest);
 
-            JournalRepo.Update<Quest>(quest);
+                JournalRepo.Update<Quest>(quest);
 
-            return Updated(quest);
+                return Updated(quest);
+            }
         }
 
         // DELETE: odata/QuestsOD(5)
         public IHttpActionResult Delete([FromODataUri] long key)
         {
-            // TODO: manage delete errors.
-            JournalRepo.Delete<Quest>(key);
+            using (JournalRepo = new JournalRepo())
+            {
+                // TODO: manage non deletable.
+                JournalRepo.Delete<Quest>(key);
 
-            return StatusCode(HttpStatusCode.NoContent);
+                return StatusCode(HttpStatusCode.NoContent);
+            }
         }
     }
 }

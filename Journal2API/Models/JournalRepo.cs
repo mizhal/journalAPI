@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Journal2API.Models.Auth;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
 
 namespace Journal2API.Models
 {
     public class JournalRepo : IRepo,
         ICrudRepoParanoidFor<Quest>,
+        ICrudRepoParanoidFor<User>,
+        ICrudRepoParanoidFor<Role>,
         ICrudRepoParanoidFor<TodoItem>,
         ICrudRepoParanoidFor<Workflow>,
         ICrudRepoParanoidFor<WorkflowState>,

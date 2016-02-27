@@ -255,8 +255,11 @@
       <DependentUpon>201602092050307_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Auth\Role.cs" />
+    <Compile Include="Models\Auth\User.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\HasFriendlyId.cs" />
     <Compile Include="Models\ICrudRepoParanoidFor.cs" />
     <Compile Include="Models\ICrudRepoFor.cs" />
     <Compile Include="Models\IHasWorkflow.cs" />
@@ -267,6 +270,7 @@
     <Compile Include="Models\ISortable.cs" />
     <Compile Include="Models\ISortableRepo.cs" />
     <Compile Include="Models\JournalRepo.cs" />
+    <Compile Include="Models\Libs\Slugify.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\Quest.cs" />
     <Compile Include="Models\TodoItem.cs" />

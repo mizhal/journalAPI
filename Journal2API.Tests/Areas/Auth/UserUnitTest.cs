@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Journal2API.Models;
+using Journal2API.Models.Auth;
 
 namespace Journal2API.Tests.Areas.Auth
 {
@@ -61,7 +64,34 @@ namespace Journal2API.Tests.Areas.Auth
         [TestMethod]
         public void CRUD()
         {
+            var repo = new IdentityContext();
+            var login = "user1";
+            var email = "name@name.es";
+            var user = repo.Users
+                .Where(x => x.Login == login)
+                .FirstOrDefault()
+                ;
+            if(user != null)
+            {
+                repo.Users.Remove(user);
+            }
+            repo.SaveChanges();
+            repo.Dispose();
+            repo = new IdentityContext();
 
+            var user2 = new User(login)
+            {
+                FullName = "Name",
+                Email = email,
+                Password = "abc123"
+            };
+            user2.Claims.Add(new Claim(user2.Id, "login", user.Login));
+            user2.Claims.Add(new Claim(user2.Id, "email", email));
+
+            repo.Users.Add(user2);
+            repo.SaveChanges();
+
+            Assert.IsTrue(repo.Users.Count() > 0, "No hemos creado usuarios");
         }
     }
 }

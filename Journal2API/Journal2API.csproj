@@ -254,8 +254,11 @@
     <Compile Include="Migrations\201602092050307_Init.Designer.cs">
       <DependentUpon>201602092050307_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603062210109_Users.cs" />
+    <Compile Include="Migrations\201603062210109_Users.Designer.cs">
+      <DependentUpon>201603062210109_Users.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Auth\Role.cs" />
     <Compile Include="Models\Auth\User.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -353,6 +356,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201602092050307_Init.resx">
       <DependentUpon>201602092050307_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603062210109_Users.resx">
+      <DependentUpon>201603062210109_Users.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

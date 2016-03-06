@@ -4,9 +4,9 @@ using System.Linq;
 using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartup(typeof(Journal2API.Startup))]
+[assembly: OwinStartup(typeof(WebApplication1.Startup))]
 
-namespace Journal2API
+namespace WebApplication1
 {
     public partial class Startup
     {

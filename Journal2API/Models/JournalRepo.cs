@@ -1,12 +1,11 @@
 ﻿using Journal2API.Models.Auth;
 using System.Data.Entity;
+using System;
 
 namespace Journal2API.Models
 {
     public class JournalRepo : IRepo,
         ICrudRepoParanoidFor<Quest>,
-        ICrudRepoParanoidFor<User>,
-        ICrudRepoParanoidFor<Role>,
         ICrudRepoParanoidFor<TodoItem>,
         ICrudRepoParanoidFor<Workflow>,
         ICrudRepoParanoidFor<WorkflowState>,
@@ -42,6 +41,11 @@ namespace Journal2API.Models
         ~JournalRepo()
         {
             Dispose();
+        }
+
+        public bool ValidateUser(string client_id, string client_secret)
+        {
+            return client_id.Equals("admin") && client_secret.Equals("admin"); 
         }
     }
 }

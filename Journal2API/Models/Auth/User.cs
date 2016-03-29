@@ -1,6 +1,7 @@
 ﻿using Journal2API.Models.Libs;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using MySql.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -27,8 +28,6 @@ namespace Journal2API.Models.Auth
         public User(string login): base(login)
         {
             Login = login;
-            Slug = GenerateSlug();
-            Id = Slug;
         }
 
         public string GenerateSlug()
@@ -44,14 +43,6 @@ namespace Journal2API.Models.Auth
             UserId = user_id;
             ClaimType = claim_type;
             ClaimValue = claim_value;
-        }
-    }
-
-    public class IdentityContext : IdentityDbContext<User>
-    {
-        public IdentityContext() : base("name=JournalContext") {
-            Database.SetInitializer<JournalContext>(null);
-            Configuration.ProxyCreationEnabled = true;
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.Entity;
 using MySql.Data.Entity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Journal2API.Models
 {
@@ -19,12 +20,12 @@ namespace Journal2API.Models
     }
 
     [DbConfigurationType(typeof(MySqlEFConfiguration))]
-    public partial class JournalContext : DbContext
+    public partial class JournalContext : IdentityDbContext<Auth.User>
     {
-        public JournalContext() : base("name=JournalContext") {
+        public JournalContext() : base("name=JournalContext")
+        {
             Database.SetInitializer<JournalContext>(null);
             Configuration.ProxyCreationEnabled = true;
         }
-
     }
 }

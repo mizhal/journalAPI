@@ -21,7 +21,7 @@ namespace Journal2API.Models
         public DateTime CreatedAt { get; set; }
     }
 
-    public partial class JournalContext : DbContext
+    public partial class JournalContext
     {
         public virtual DbSet<LogItem> LogItems { get; set; }
     }

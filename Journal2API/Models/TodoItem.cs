@@ -25,7 +25,7 @@ namespace Journal2API.Models
         public DateTime? DeletedAt { get; set; }
     }
 
-    public partial class JournalContext: DbContext
+    public partial class JournalContext
     {
         public virtual DbSet<TodoItem> TodoItems { get; set; }
     }

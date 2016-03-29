@@ -68,7 +68,7 @@ namespace Journal2API.Models
 
     }
 
-    public partial class JournalContext: DbContext {
+    public partial class JournalContext {
         public virtual DbSet<Quest> Quests
         {
             get; set;

@@ -105,7 +105,7 @@ namespace Journal2API.Models
         public virtual Workflow Workflow { get; set; }
         }
 
-    public partial class JournalContext: DbContext
+    public partial class JournalContext
     {
         public virtual DbSet<WorkflowTransition> WorkflowItems { get; set; }
         public virtual DbSet<WorkflowDefinition> WorkflowDefinitions { get; set; }

@@ -64,7 +64,7 @@ namespace Journal2API.Tests.Areas.Auth
         [TestMethod]
         public void CRUD()
         {
-            var repo = new IdentityContext();
+            var repo = new JournalContext();
             var login = "user1";
             var email = "name@name.es";
             var user = repo.Users
@@ -77,7 +77,7 @@ namespace Journal2API.Tests.Areas.Auth
             }
             repo.SaveChanges();
             repo.Dispose();
-            repo = new IdentityContext();
+            repo = new JournalContext();
 
             var user2 = new User(login)
             {
@@ -85,7 +85,7 @@ namespace Journal2API.Tests.Areas.Auth
                 Email = email,
                 Password = "abc123"
             };
-            user2.Claims.Add(new Claim(user2.Id, "login", user.Login));
+            user2.Claims.Add(new Claim(user2.Id, "login", login));
             user2.Claims.Add(new Claim(user2.Id, "email", email));
 
             repo.Users.Add(user2);

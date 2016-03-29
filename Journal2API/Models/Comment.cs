@@ -19,7 +19,7 @@ namespace Journal2API.Models
         public long ObjectId { get; set; }
     }
 
-    public partial class JournalContext: DbContext
+    public partial class JournalContext
     {
         public virtual DbSet<Comment> Comments { get; set; }
     }

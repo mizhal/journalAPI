@@ -287,6 +287,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>login.feature</DependentUpon>
     </Compile>
+    <Compile Include="Spec\Features\LogInSteps.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -367,6 +368,9 @@
     <EmbeddedResource Include="Migrations\201602092050307_Init.resx">
       <DependentUpon>201602092050307_Init.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

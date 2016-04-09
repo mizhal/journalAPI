@@ -261,6 +261,7 @@
     <Compile Include="Migrations\201602092050307_Init.cs" />
     <Compile Include="Migrations\201602092050307_Init.Designer.cs">
       <DependentUpon>201602092050307_Init.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -281,6 +282,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Spec\Features\global-focus.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>global-focus.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Spec\Features\journal-writing.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>journal-writing.feature</DependentUpon>
+    </Compile>
     <Compile Include="Spec\Features\projects-scopes.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -293,6 +304,16 @@
     </Compile>
     <Compile Include="Spec\Features\LogInSteps.cs" />
     <Compile Include="Spec\Features\ProjectsAndScopesSteps.cs" />
+    <Compile Include="Spec\Features\quest-tracking.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>quest-tracking.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Spec\Features\task-tracking.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>task-tracking.feature</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -359,6 +380,22 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>projects-scopes.feature.cs</LastGenOutput>
     </Content>
+    <Content Include="Spec\Features\global-focus.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>global-focus.feature.cs</LastGenOutput>
+    </Content>
+    <Content Include="Spec\Features\quest-tracking.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>quest-tracking.feature.cs</LastGenOutput>
+    </Content>
+    <Content Include="Spec\Features\task-tracking.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>task-tracking.feature.cs</LastGenOutput>
+    </Content>
+    <Content Include="Spec\Features\journal-writing.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>journal-writing.feature.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -376,6 +413,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201602092050307_Init.resx">
       <DependentUpon>201602092050307_Init.cs</DependentUpon>
+    </EmbeddedResource>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <PropertyGroup>

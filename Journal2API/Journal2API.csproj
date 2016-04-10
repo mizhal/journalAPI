@@ -261,7 +261,6 @@
     <Compile Include="Migrations\201602092050307_Init.cs" />
     <Compile Include="Migrations\201602092050307_Init.Designer.cs">
       <DependentUpon>201602092050307_Init.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Common.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -282,12 +281,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Spec\Features\projects-scopes.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>projects-scopes.feature</DependentUpon>
+    </Compile>
     <Compile Include="Spec\Features\login.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>login.feature</DependentUpon>
     </Compile>
     <Compile Include="Spec\Features\LogInSteps.cs" />
+    <Compile Include="Spec\Features\ProjectsAndScopesSteps.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -350,6 +355,10 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>login.feature.cs</LastGenOutput>
     </Content>
+    <Content Include="Spec\Features\projects-scopes.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>projects-scopes.feature.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -367,9 +376,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201602092050307_Init.resx">
       <DependentUpon>201602092050307_Init.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <PropertyGroup>
